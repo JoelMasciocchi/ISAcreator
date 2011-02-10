@@ -1207,10 +1207,10 @@ public class ISAcreator extends AniSheetableJFrame implements OntologyConsumer {
     public synchronized TableReferenceObject selectTROForUserSelection(
             String measurementEndpoint, String techType) {
         for (MappingObject mo : mappings) {
-            if (mo.getMeasurementEndpointType().equals(measurementEndpoint) &&
-                    mo.getTechnologyType().equals(techType)) {
+            if (mo.getMeasurementEndpointType().equalsIgnoreCase(measurementEndpoint) &&
+                    mo.getTechnologyType().equalsIgnoreCase(techType)) {
                 for (TableReferenceObject tro : assayDefinitions) {
-                    if (tro.getTableName().equals(mo.getAssayName())) {
+                    if (tro.getTableName().equalsIgnoreCase(mo.getAssayName())) {
                         return tro;
                     }
                 }
@@ -1231,7 +1231,7 @@ public class ISAcreator extends AniSheetableJFrame implements OntologyConsumer {
         for (MappingObject mo : mappings) {
             if (mo.getTableType().equals(tableType)) {
                 for (TableReferenceObject tro : assayDefinitions) {
-                    if (tro.getTableName().equals(mo.getAssayName())) {
+                    if (tro.getTableName().equalsIgnoreCase(mo.getAssayName())) {
                         return new TableReferenceObject(tro.getTableFields());
                     }
                 }
