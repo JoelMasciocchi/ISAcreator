@@ -168,7 +168,11 @@ public class SpreadsheetUtils {
                             : spreadsheet.getTable().getValueAt(row,
                             colIndex).toString();
 
+<<<<<<< HEAD
                     if (columnValue != null && !columnValue.trim().equals("")) {
+=======
+                    if (columnValue != null && !columnValue.trim().equals("") && !columnValue.contains(":")) {
+>>>>>>> c7862cadff57288e91539a066d3306afb8804529
                         if (!columnToFreeText.containsKey(tc.getHeaderValue().toString())) {
                             columnToFreeText.put(tc.getHeaderValue().toString(), new HashSet<String>());
                         }

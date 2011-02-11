@@ -5,6 +5,10 @@ import org.isatools.isacreator.model.Assay;
 import org.isatools.isacreator.model.Investigation;
 import org.isatools.isacreator.ontologiser.model.OntologisedResult;
 
+<<<<<<< HEAD
+=======
+import java.util.HashMap;
+>>>>>>> c7862cadff57288e91539a066d3306afb8804529
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -28,6 +32,7 @@ public class InvestigationAdaptor implements ContentAdaptor {
 
     public InvestigationAdaptor(Investigation investigation) {
         this.investigation = investigation;
+<<<<<<< HEAD
     }
 
     public void replaceTerms(Set<OntologisedResult> annotations) {
@@ -35,6 +40,16 @@ public class InvestigationAdaptor implements ContentAdaptor {
         for (OntologisedResult annotation : annotations) {
 
         }
+=======
+        assayToTerms = new HashMap<Assay, Set<String>>();
+    }
+
+    public void replaceTerms(Set<OntologisedResult> annotations) {
+        // todo replace terms in sheet
+//        for (OntologisedResult annotation : annotations) {
+//
+//        }
+>>>>>>> c7862cadff57288e91539a066d3306afb8804529
     }
 
     public Set<String> getTerms() {
