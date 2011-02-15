@@ -35,58 +35,53 @@
  The ISA Team and the ISA software suite have been funded by the EU Carcinogenomics project (http://www.carcinogenomics.eu), the UK BBSRC (http://www.bbsrc.ac.uk), the UK NERC-NEBC (http://nebc.nerc.ac.uk) and in part by the EU NuGO consortium (http://www.nugo.org/everyone).
  */
 
-package org.isatools.isacreator.effects;
+package org.isatools.isacreator.effects.components;
 
 import org.isatools.isacreator.common.UIHelper;
 
-import javax.swing.border.AbstractBorder;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.text.NumberFormat;
 
 /**
- * @author Eamonn Maguire
- * @date May 27, 2009
+ * Created by the ISA team
+ *
+ * @author Eamonn Maguire (eamonnmag@gmail.com)
+ *         <p/>
+ *         Date: 14/02/2011
+ *         Time: 12:09
  */
+public class RoundedFormattedTextField extends JFormattedTextField {
+
+    private Color backgroundColor;
 
 
-public class RoundedBorder extends AbstractBorder {
-
-    private Color borderColor;
-    private int curveRadius;
-
-    public RoundedBorder() {
-        this(UIHelper.GREY_COLOR, 9);
+    public RoundedFormattedTextField(NumberFormat format) {
+        this(format, UIHelper.TRANSPARENT_LIGHT_GREEN_COLOR);
     }
 
-    public RoundedBorder(Color borderColor, int curveRadius) {
-        this.borderColor = borderColor;
-        this.curveRadius = curveRadius;
+    public RoundedFormattedTextField(NumberFormat format, Color backgroundColor) {
+        super(format);
+        this.backgroundColor = backgroundColor;
+
+        setOpaque(false);
+
+        setBorder(new EmptyBorder(3, 5, 3, 5));
+
     }
 
-    public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-        Graphics2D g2d = (Graphics2D) g;
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        int width = getWidth() - getInsets().left - getInsets().right;
+        int height = getHeight() - getInsets().top - getInsets().bottom;
+
+        Graphics2D g2d = (Graphics2D) graphics;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        Stroke prevStroke = g2d.getStroke();
+        g2d.setColor(backgroundColor);
 
-        g2d.setStroke(new BasicStroke(2.0f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
-        g.setColor(borderColor);
-        g.drawRoundRect(x, y, width, height, curveRadius, curveRadius);
-        g2d.setStroke(prevStroke);
+        g2d.fillRoundRect(getInsets().left, getInsets().top, width, height, 8, 8);
 
-    }
-
-    @Override
-    public Insets getBorderInsets(Component component) {
-        return new Insets(curveRadius, curveRadius, curveRadius, curveRadius);
-    }
-
-    @Override
-    public Insets getBorderInsets(Component component, Insets insets) {
-        insets.left = insets.right = insets.bottom = insets.top = curveRadius;
-        return insets;
-    }
-
-    @Override
-    public boolean isBorderOpaque() {
-        return false;
+        super.paintComponent(graphics);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

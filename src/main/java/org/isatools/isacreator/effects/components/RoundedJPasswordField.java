@@ -34,56 +34,52 @@
  Sponsors:
  The ISA Team and the ISA software suite have been funded by the EU Carcinogenomics project (http://www.carcinogenomics.eu), the UK BBSRC (http://www.bbsrc.ac.uk), the UK NERC-NEBC (http://nebc.nerc.ac.uk) and in part by the EU NuGO consortium (http://www.nugo.org/everyone).
  */
-
-package org.isatools.isacreator.wizard;
+package org.isatools.isacreator.effects.components;
 
 import org.isatools.isacreator.common.UIHelper;
-import org.isatools.isacreator.configuration.Ontology;
-import org.isatools.isacreator.configuration.RecommendedOntology;
-import org.isatools.isacreator.effects.components.RoundedJTextField;
-import org.isatools.isacreator.gui.DataEntryForm;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.Collections;
 
 /**
- * @author Eamonn Maguire
- * @date Feb 25, 2009
+ * Created by the ISA team
+ *
+ * @author Eamonn Maguire (eamonnmag@gmail.com)
+ *         <p/>
+ *         Date: 14/02/2011
+ *         Time: 11:46
  */
+public class RoundedJPasswordField extends JPasswordField {
+    private Color backgroundColor;
 
 
-public class LabelCapture extends JPanel {
-
-    private String initialVal;
-
-    private JTextField labelVal;
-
-    public LabelCapture(String initialVal) {
-        this.initialVal = initialVal;
-        setBackground(UIHelper.BG_COLOR);
-        instantiatePanel();
+    public RoundedJPasswordField(int columns) {
+        this(columns, UIHelper.TRANSPARENT_LIGHT_GREEN_COLOR);
     }
 
-    private void instantiatePanel() {
-        JPanel container = new JPanel(new GridLayout(1, 3));
-//		container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
-        container.setBackground(UIHelper.BG_COLOR);
+    public RoundedJPasswordField(int columns, Color backgroundColor) {
+        super(columns);
+        this.backgroundColor = backgroundColor;
 
-        labelVal = new RoundedJTextField(8);
-        labelVal.setText(initialVal);
-        UIHelper.renderComponent(labelVal, UIHelper.VER_11_BOLD, UIHelper.DARK_GREEN_COLOR, false);
-        labelVal.setToolTipText("<html><b>Label</b><p>Label used in this assay</p></html>");
+        setOpaque(false);
 
-        container.add(labelVal);
-        container.add(DataEntryForm.createOntologyDropDown(labelVal, false,
-                Collections.singletonMap("CHEBI", new RecommendedOntology(new Ontology("1007", "", "CHEBI", "Chemicals of Bioligical Interest")))));
-        container.add(UIHelper.createLabel(""));
+        setBorder(new EmptyBorder(3, 5, 3, 5));
 
-        add(container);
+
     }
 
-    public String getLabelName() {
-        return labelVal.getText();
+    @Override
+    protected void paintComponent(Graphics graphics) {
+        int width = getWidth() - getInsets().left - getInsets().right;
+        int height = getHeight() - getInsets().top - getInsets().bottom;
+
+        Graphics2D g2d = (Graphics2D) graphics;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.setColor(backgroundColor);
+
+        g2d.fillRoundRect(getInsets().left, getInsets().top, width, height, 8, 8);
+
+        super.paintComponent(graphics);    //To change body of overridden methods use File | Settings | File Templates.
     }
 }

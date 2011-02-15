@@ -35,55 +35,50 @@
  The ISA Team and the ISA software suite have been funded by the EU Carcinogenomics project (http://www.carcinogenomics.eu), the UK BBSRC (http://www.bbsrc.ac.uk), the UK NERC-NEBC (http://nebc.nerc.ac.uk) and in part by the EU NuGO consortium (http://www.nugo.org/everyone).
  */
 
-package org.isatools.isacreator.wizard;
+package org.isatools.isacreator.effects.borders;
 
 import org.isatools.isacreator.common.UIHelper;
-import org.isatools.isacreator.configuration.Ontology;
-import org.isatools.isacreator.configuration.RecommendedOntology;
-import org.isatools.isacreator.effects.components.RoundedJTextField;
-import org.isatools.isacreator.gui.DataEntryForm;
 
-import javax.swing.*;
+import javax.swing.border.AbstractBorder;
 import java.awt.*;
-import java.util.Collections;
 
 /**
  * @author Eamonn Maguire
- * @date Feb 25, 2009
+ * @date May 27, 2009
  */
 
 
-public class LabelCapture extends JPanel {
+public class RoundedBorder extends AbstractBorder {
 
-    private String initialVal;
+    private Color borderColor;
+    private int curveRadius;
 
-    private JTextField labelVal;
-
-    public LabelCapture(String initialVal) {
-        this.initialVal = initialVal;
-        setBackground(UIHelper.BG_COLOR);
-        instantiatePanel();
+    public RoundedBorder() {
+        this(UIHelper.GREY_COLOR, 8);
     }
 
-    private void instantiatePanel() {
-        JPanel container = new JPanel(new GridLayout(1, 3));
-//		container.setLayout(new BoxLayout(container, BoxLayout.LINE_AXIS));
-        container.setBackground(UIHelper.BG_COLOR);
-
-        labelVal = new RoundedJTextField(8);
-        labelVal.setText(initialVal);
-        UIHelper.renderComponent(labelVal, UIHelper.VER_11_BOLD, UIHelper.DARK_GREEN_COLOR, false);
-        labelVal.setToolTipText("<html><b>Label</b><p>Label used in this assay</p></html>");
-
-        container.add(labelVal);
-        container.add(DataEntryForm.createOntologyDropDown(labelVal, false,
-                Collections.singletonMap("CHEBI", new RecommendedOntology(new Ontology("1007", "", "CHEBI", "Chemicals of Bioligical Interest")))));
-        container.add(UIHelper.createLabel(""));
-
-        add(container);
+    public RoundedBorder(Color borderColor, int curveRadius) {
+        this.borderColor = borderColor;
+        this.curveRadius = curveRadius;
     }
 
-    public String getLabelName() {
-        return labelVal.getText();
+    public Insets getBorderInsets(Component c, Insets insets) {
+        insets.left = insets.top = insets.right = insets.bottom = 12;
+        return insets;
+    }
+
+    public void paintBorder(Component c, Graphics g, int x, int y,
+                            int width, int height) {
+
+        Graphics2D g2d =  (Graphics2D) g;
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2d.translate(x, y);
+        g2d.setColor(borderColor);
+        g2d.drawRoundRect(0, 0, width - 2, height - 2, curveRadius, curveRadius);
+        g2d.translate(-x, -y);
+    }
+
+    public boolean isBorderOpaque() {
+        return true;
     }
 }
